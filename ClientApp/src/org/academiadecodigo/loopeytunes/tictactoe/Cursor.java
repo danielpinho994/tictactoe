@@ -2,6 +2,8 @@ package org.academiadecodigo.loopeytunes.tictactoe;
 
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
+
 import java.util.ArrayList;
 import static java.lang.Double.parseDouble;
 
@@ -56,11 +58,10 @@ public class Cursor extends Position {
             }
         }
 
-        Rectangle teste = new Rectangle(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
-        teste.setColor(Color.BLUE);
-        teste.fill();
+        Picture xSymbol = new Picture(rectangle.getX(), rectangle.getY(), "resources/GameX_Symbol.png");
+        xSymbol.draw();
 
-        lastPlay = teste.getX() + "#" + teste.getY();
+        lastPlay = xSymbol.getX() + "#" + xSymbol.getY();
         addPlayToList(lastPlay);
         gameRules.checkWin(myPosList);
         gameRules.checkTie(posList);
@@ -80,10 +81,9 @@ public class Cursor extends Position {
         posList.add(opponentPlay);
         opponentPosList.add(opponentPlay);
         String[] coordinates = opponentPlay.split("#");
-        Rectangle teste = new Rectangle(parseDouble(coordinates[0]), parseDouble(coordinates[1]), rectangle.getWidth(), rectangle.getHeight());
-        System.out.println("coordinates: " + coordinates[0] + coordinates[1]);
-        teste.setColor(Color.RED);
-        teste.fill();
+        Picture oSymbol = new Picture(parseDouble(coordinates[0]), parseDouble(coordinates[1]), "resources/GameO_Symbol.png");
+        oSymbol.draw();
+
         gameRules.checkLoss(opponentPosList);
         gameRules.checkTie(posList);
     }
