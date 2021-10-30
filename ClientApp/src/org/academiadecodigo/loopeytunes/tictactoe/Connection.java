@@ -4,8 +4,7 @@ import java.io.*;
 import java.net.Socket;
 
 public class Connection {
-    private Cursor cursor;
-    private Socket clientSocket;
+    private final Cursor cursor;
     private BufferedReader in;
     private PrintWriter out;
 
@@ -20,11 +19,11 @@ public class Connection {
     }
 
     public void setupConnection(String host, int port) {
+
         try {
-            clientSocket = new Socket(host, port);
+            Socket clientSocket = new Socket(host, port);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
-
 
             String answer = in.readLine();
             if (answer.equals("a")) {

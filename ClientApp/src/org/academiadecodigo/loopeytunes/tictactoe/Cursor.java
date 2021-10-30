@@ -1,9 +1,7 @@
 package org.academiadecodigo.loopeytunes.tictactoe;
 
 import org.academiadecodigo.simplegraphics.graphics.Color;
-import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
-
 import java.util.ArrayList;
 import static java.lang.Double.parseDouble;
 
@@ -18,7 +16,7 @@ public class Cursor extends Position {
 
     public Cursor(int x, int y, int width, int height) {
         super(x, y, width, height);
-
+        rectangle.setColor(Color.LIGHT_GRAY);
         rectangle.fill();
         new GameKeyboard(this);
         gameRules = new GameRules();
@@ -49,7 +47,6 @@ public class Cursor extends Position {
     }
 
     public void makeMove() {
-
         for (String pos : posList) {
             if ((rectangle.getX() + "#" + rectangle.getY()).equals(pos)) {
                 System.out.println("nope, already filled");
@@ -80,6 +77,7 @@ public class Cursor extends Position {
         System.out.println(opponentPlay);
         posList.add(opponentPlay);
         opponentPosList.add(opponentPlay);
+
         String[] coordinates = opponentPlay.split("#");
         Picture oSymbol = new Picture(parseDouble(coordinates[0]), parseDouble(coordinates[1]), "resources/GameO_Symbol.png");
         oSymbol.draw();
