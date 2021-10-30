@@ -25,6 +25,7 @@ public class Connection {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
 
+
             String answer = in.readLine();
             if (answer.equals("a")) {
                 cursor.setPlaying(true);
@@ -51,7 +52,7 @@ public class Connection {
                 if ( opponent != null) {
                     System.out.println("position received: " + opponent);
 
-                    cursor.addPlayToList(opponent);
+                    cursor.addOpponentPlayToList(opponent);
 
                     cursor.setPlaying(true);
                     play();

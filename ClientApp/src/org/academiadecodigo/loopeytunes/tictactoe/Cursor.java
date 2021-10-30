@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import static java.lang.Double.parseDouble;
+
 public class Cursor extends Position {
 
     private ArrayList<String> posList = new ArrayList<>();
@@ -49,8 +51,9 @@ public class Cursor extends Position {
     public void makeMove() {
 
         for (String pos : posList) {
-            if ((rectangle.getX() + "|" + rectangle.getY()).equals(pos)) {
+            if ((rectangle.getX() + "#" + rectangle.getY()).equals(pos)) {
                 System.out.println("nope, already filled");
+                setPlaying(true);
                 return;
             }
         }
@@ -59,7 +62,7 @@ public class Cursor extends Position {
         teste.setColor(Color.BLUE);
         teste.fill();
 
-        lastPlay = teste.getX() + "|" + teste.getY();
+        lastPlay = teste.getX() + "#" + teste.getY();
         addPlayToList(lastPlay);
     }
 
@@ -69,6 +72,16 @@ public class Cursor extends Position {
 
     public void addPlayToList(String play) {
         posList.add(play);
+    }
+
+    public void addOpponentPlayToList(String opponentPlay){
+        System.out.println(opponentPlay);
+        posList.add(opponentPlay);
+        String[] coordinates = opponentPlay.split("#");
+        Rectangle teste = new Rectangle(parseDouble(coordinates[0]), parseDouble(coordinates[1]), rectangle.getWidth(), rectangle.getHeight());
+        System.out.println("coordinates: " + coordinates[0] + coordinates[1]);
+        teste.setColor(Color.RED);
+        teste.fill();
     }
 
     public String getLastPlay() {
