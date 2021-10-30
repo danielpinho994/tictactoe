@@ -21,18 +21,9 @@ public class Server {
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-
                 connectionCounter++;
-
                 ServerConnection serverConnection = new ServerConnection(clientSocket,this);
-
-                if (connectionCounter % 2 == 0) {
-                    ServerConnection opponent = hashMap.get(connectionCounter - 1);
-
-                }
-
                 cachedPool.submit(serverConnection);
-
                 hashMap.put(connectionCounter, serverConnection);
             }
         } catch (IOException e) {
