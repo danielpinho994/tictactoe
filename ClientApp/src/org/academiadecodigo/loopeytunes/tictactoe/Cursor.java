@@ -47,7 +47,6 @@ public class Cursor extends Position {
     }
 
     public void makeMove() {
-
         for (String pos : posList) {
             if ((rectangle.getX() + "#" + rectangle.getY()).equals(pos)) {
                 System.out.println("nope, already filled");
@@ -79,11 +78,14 @@ public class Cursor extends Position {
         System.out.println(opponentPlay);
         posList.add(opponentPlay);
         opponentPosList.add(opponentPlay);
+
         String[] coordinates = opponentPlay.split("#");
-        Rectangle teste = new Rectangle(parseDouble(coordinates[0]), parseDouble(coordinates[1]), rectangle.getWidth(), rectangle.getHeight());
         System.out.println("coordinates: " + coordinates[0] + coordinates[1]);
+
+        Rectangle teste = new Rectangle(parseDouble(coordinates[0]), parseDouble(coordinates[1]), rectangle.getWidth(), rectangle.getHeight());
         teste.setColor(Color.RED);
         teste.fill();
+
         gameRules.checkLoss(opponentPosList);
         gameRules.checkTie(posList);
     }

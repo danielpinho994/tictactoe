@@ -6,14 +6,14 @@ public class Position {
 
    protected Rectangle rectangle;
 
-   private int witdh;
-   private int heigth;
+   private int width;
+   private int height;
    private int x;
    private int y;
 
-    public Position(int x, int y, int witdh, int heigth ) {
+    public Position(int x, int y, int width, int height ) {
 
-        rectangle = new Rectangle(x, y, witdh, heigth);
+        rectangle = new Rectangle(x, y, width, height);
         rectangle.draw();
     }
 }

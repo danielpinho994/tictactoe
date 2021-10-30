@@ -5,12 +5,8 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 public class GameKeyboard implements KeyboardHandler {
-    private Cursor cursor;
+    private final Cursor cursor;
 
     public GameKeyboard(Cursor cursor){
         this.cursor = cursor;
