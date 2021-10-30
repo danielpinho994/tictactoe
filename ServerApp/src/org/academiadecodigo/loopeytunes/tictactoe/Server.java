@@ -9,7 +9,6 @@ import java.util.concurrent.Executors;
 
 public class Server {
 
-    private final String host = "192.168.1.12";
     private final int port = 9900;
     private ServerSocket serverSocket;
     private ExecutorService cachedPool;
@@ -22,11 +21,19 @@ public class Server {
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                ServerConnection serverConnection = new ServerConnection(clientSocket,this);
-                cachedPool.submit(serverConnection);
-                connectionCounter++;
-                hashMap.put(connectionCounter, serverConnection);
 
+                connectionCounter++;
+
+                ServerConnection serverConnection = new ServerConnection(clientSocket,this);
+
+                if (connectionCounter % 2 == 0) {
+                    ServerConnection opponent = hashMap.get(connectionCounter - 1);
+
+                }
+
+                cachedPool.submit(serverConnection);
+
+                hashMap.put(connectionCounter, serverConnection);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,12 +50,15 @@ public class Server {
     public void broadcast(String message, ServerConnection sender){
 
         for (ServerConnection serverConnection : hashMap.values()){
-            if(serverConnection != sender) {
+            if(!serverConnection.equals(sender)) {
                 serverConnection.respond(message);
             }
         }
     }
 
+    public int getConnectionCounter() {
+        return connectionCounter;
+    }
 
     public static void main(String[] args) {
         new Server();

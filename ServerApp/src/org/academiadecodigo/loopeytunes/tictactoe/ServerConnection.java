@@ -14,7 +14,6 @@ public class ServerConnection implements Runnable {
     private PrintWriter out;
     private String message = "";
 
-
     public ServerConnection(Socket clientSocket, Server server) {
         this.clientSocket = clientSocket;
         this.server = server;
@@ -22,25 +21,34 @@ public class ServerConnection implements Runnable {
         try {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
+
+            if (server.getConnectionCounter() % 2 != 0) {
+                out.println("a");
+            } else {
+                out.println("b");
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    private void listen() {
+    private void start() {
         try {
             message = in.readLine();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         if(message != null) {
             server.broadcast(message, this);
-            System.out.println(message);
         }
     }
 
     public void respond(String message){
         out.println(message);
+
+        System.out.println("Server is OK. Position sent: " + message);
     }
 
 
@@ -48,8 +56,9 @@ public class ServerConnection implements Runnable {
     @Override
     public void run() {
         while (!message.equals("/q")) {
-            listen();
+            start();
         }
+
         try {
             clientSocket.close();
         } catch (IOException e) {

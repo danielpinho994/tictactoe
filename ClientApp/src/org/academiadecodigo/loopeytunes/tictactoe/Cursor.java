@@ -11,16 +11,20 @@ import java.util.ArrayList;
 public class Cursor extends Position {
 
     private ArrayList<String> posList = new ArrayList<>();
+    private boolean isPlaying;
+
+    private String lastPlay;
 
     public Cursor(int x, int y, int witdh, int heigth) {
         super(x, y, witdh, heigth);
+
         rectangle.fill();
         new GameKeyboard(this);
     }
 
     public void moveUp() {
         if (rectangle.getY() > Field.PADDING) {
-            rectangle.translate(0,-rectangle.getHeight());
+            rectangle.translate(0, -rectangle.getHeight());
         }
     }
 
@@ -42,37 +46,40 @@ public class Cursor extends Position {
         }
     }
 
-    public String makeMove() {
-        readSelection();
+    public void makeMove() {
 
         for (String pos : posList) {
             if ((rectangle.getX() + "|" + rectangle.getY()).equals(pos)) {
                 System.out.println("nope, already filled");
-                readSelection();
-                return null;
+                return;
             }
         }
 
         Rectangle teste = new Rectangle(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
         teste.setColor(Color.BLUE);
         teste.fill();
-        posList.add(teste.getX() + "|" + teste.getY());
 
-        return teste.getX() + "|" + teste.getY();
+        lastPlay = teste.getX() + "|" + teste.getY();
+        addPlayToList(lastPlay);
     }
 
-    public void addOpponentPlay(String play){
-        this.posList.add(play);
+    public boolean isPlaying() {
+        return isPlaying;
     }
 
-    public void readSelection(){
-        //fica à escuta de uma mensagem que só é enviada depois de se carregar no enter. Enter passa a ser a tecla para escolher jogada
+    public void addPlayToList(String play) {
+        posList.add(play);
+    }
 
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        try {
-            bufferedReader.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public String getLastPlay() {
+        return lastPlay;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
+    }
+
+    public void nullLastPlay() {
+        lastPlay = null;
     }
 }

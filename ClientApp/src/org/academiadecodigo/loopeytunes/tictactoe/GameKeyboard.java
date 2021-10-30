@@ -20,19 +20,26 @@ public class GameKeyboard implements KeyboardHandler {
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
 
-        switch (keyboardEvent.getKey()) {
-            case KeyboardEvent.KEY_UP:
-                cursor.moveUp();
-                break;
-            case KeyboardEvent.KEY_DOWN:
-                cursor.moveDown();
-                break;
-            case KeyboardEvent.KEY_LEFT:
-                cursor.moveLeft();
-                break;
-            case KeyboardEvent.KEY_RIGHT:
-                cursor.moveRight();
-                break;
+        if (cursor.isPlaying()) {
+
+            switch (keyboardEvent.getKey()) {
+                case KeyboardEvent.KEY_UP:
+                    cursor.moveUp();
+                    break;
+                case KeyboardEvent.KEY_DOWN:
+                    cursor.moveDown();
+                    break;
+                case KeyboardEvent.KEY_LEFT:
+                    cursor.moveLeft();
+                    break;
+                case KeyboardEvent.KEY_RIGHT:
+                    cursor.moveRight();
+                    break;
+                case KeyboardEvent.KEY_SPACE:
+                    cursor.setPlaying(false);
+                    cursor.makeMove();
+                    break;
+            }
         }
     }
 
@@ -60,9 +67,14 @@ public class GameKeyboard implements KeyboardHandler {
         rightPressed.setKey(KeyboardEvent.KEY_RIGHT);
         rightPressed.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
+        KeyboardEvent spacePressed = new KeyboardEvent();
+        spacePressed.setKey(KeyboardEvent.KEY_SPACE);
+        spacePressed.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+
         kb.addEventListener(upPressed);
         kb.addEventListener(leftPressed);
         kb.addEventListener(downPressed);
         kb.addEventListener(rightPressed);
+        kb.addEventListener(spacePressed);
     }
 }

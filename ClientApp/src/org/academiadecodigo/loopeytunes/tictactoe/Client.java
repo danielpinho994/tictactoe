@@ -1,8 +1,8 @@
 package org.academiadecodigo.loopeytunes.tictactoe;
 
-public class Main {
+public class Client {
     public static void main(String[] args) {
 
-        new Game("192.168.1.12", 9900);
+        new Connection("127.0.0.1", 9900);
     }
 }
