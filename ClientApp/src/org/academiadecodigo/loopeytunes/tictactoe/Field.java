@@ -3,14 +3,13 @@ package org.academiadecodigo.loopeytunes.tictactoe;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 
 public class Field {
-    public final static int PADDING = 10;
-    public static Rectangle field;
+    public static final int PADDING = 10;
     public static final int WIDTH = 600;
     public static final int HEIGHT = 600;
+    public static final Rectangle FIELD = new Rectangle(PADDING, PADDING, WIDTH, HEIGHT);
 
     public Field() {
-        field = new Rectangle(PADDING, PADDING, WIDTH, HEIGHT);
-        field.draw();
+        FIELD.draw();
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {

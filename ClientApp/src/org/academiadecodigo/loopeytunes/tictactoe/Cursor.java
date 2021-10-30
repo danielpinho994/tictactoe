@@ -2,26 +2,24 @@ package org.academiadecodigo.loopeytunes.tictactoe;
 
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-
 import static java.lang.Double.parseDouble;
 
 public class Cursor extends Position {
 
-    private ArrayList<String> posList = new ArrayList<>();
+    private final ArrayList<String> posList = new ArrayList<>();
+    private final ArrayList<String> myPosList = new ArrayList<>();
+    private final ArrayList<String> opponentPosList = new ArrayList<>();
     private boolean isPlaying;
-
+    private final GameRules gameRules;
     private String lastPlay;
 
-    public Cursor(int x, int y, int witdh, int heigth) {
-        super(x, y, witdh, heigth);
+    public Cursor(int x, int y, int width, int height) {
+        super(x, y, width, height);
 
         rectangle.fill();
         new GameKeyboard(this);
+        gameRules = new GameRules();
     }
 
     public void moveUp() {
@@ -64,6 +62,8 @@ public class Cursor extends Position {
 
         lastPlay = teste.getX() + "#" + teste.getY();
         addPlayToList(lastPlay);
+        gameRules.checkWin(myPosList);
+        gameRules.checkTie(posList);
     }
 
     public boolean isPlaying() {
@@ -72,16 +72,20 @@ public class Cursor extends Position {
 
     public void addPlayToList(String play) {
         posList.add(play);
+        myPosList.add(play);
     }
 
     public void addOpponentPlayToList(String opponentPlay){
         System.out.println(opponentPlay);
         posList.add(opponentPlay);
+        opponentPosList.add(opponentPlay);
         String[] coordinates = opponentPlay.split("#");
         Rectangle teste = new Rectangle(parseDouble(coordinates[0]), parseDouble(coordinates[1]), rectangle.getWidth(), rectangle.getHeight());
         System.out.println("coordinates: " + coordinates[0] + coordinates[1]);
         teste.setColor(Color.RED);
         teste.fill();
+        gameRules.checkLoss(opponentPosList);
+        gameRules.checkTie(posList);
     }
 
     public String getLastPlay() {
@@ -95,4 +99,5 @@ public class Cursor extends Position {
     public void nullLastPlay() {
         lastPlay = null;
     }
+
 }
