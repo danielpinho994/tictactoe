@@ -31,7 +31,9 @@ public class ServerConnection implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
+
     private void start() {
         try {
             message = in.readLine();
@@ -50,8 +52,6 @@ public class ServerConnection implements Runnable {
 
         System.out.println("Server is OK. Position sent: " + message);
     }
-
-
 
     @Override
     public void run() {
