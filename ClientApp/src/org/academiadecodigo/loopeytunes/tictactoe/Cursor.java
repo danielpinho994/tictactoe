@@ -13,11 +13,12 @@ public class Cursor extends Position {
     private boolean isPlaying;
     private final GameRules gameRules;
     private String lastPlay;
-    private Sound play = new Sound("resources/playCutted.wav");
+    private final Sound play = new Sound("/resources/play_sound.wav");
     private boolean gameOver;
 
     public Cursor(int x, int y, int width, int height) {
         super(x, y, width, height);
+
         rectangle.setColor(Color.LIGHT_GRAY);
         rectangle.fill();
         new GameKeyboard(this);
@@ -51,18 +52,17 @@ public class Cursor extends Position {
     public void makeMove() {
         for (String pos : posList) {
             if ((rectangle.getX() + "#" + rectangle.getY()).equals(pos)) {
-                System.out.println("nope, already filled");
                 setPlaying(true);
                 return;
             }
         }
 
-        Picture xSymbol = new Picture(rectangle.getX(), rectangle.getY(), "resources/GameX_Symbol.png");
+        Picture xSymbol = new Picture(rectangle.getX(), rectangle.getY(), "resources/x_symbol.png");
 
         play.play(true);
         xSymbol.draw();
         lastPlay = xSymbol.getX() + "#" + xSymbol.getY();
-        addPlayToList(lastPlay);
+        addMyPlayToList(lastPlay);
         gameOver = gameRules.checkWin(myPosList);
         gameOver = gameRules.checkTie(posList);
 
@@ -72,18 +72,17 @@ public class Cursor extends Position {
         return isPlaying;
     }
 
-    public void addPlayToList(String play) {
+    public void addMyPlayToList(String play) {
         posList.add(play);
         myPosList.add(play);
     }
 
-    public void addOpponentPlayToList(String opponentPlay){
-        System.out.println(opponentPlay);
+    public void addOpponentPlayToList(String opponentPlay) {
         posList.add(opponentPlay);
         opponentPosList.add(opponentPlay);
 
         String[] coordinates = opponentPlay.split("#");
-        Picture oSymbol = new Picture(parseDouble(coordinates[0]), parseDouble(coordinates[1]), "resources/GameO_Symbol.png");
+        Picture oSymbol = new Picture(parseDouble(coordinates[0]), parseDouble(coordinates[1]), "resources/o_symbol.png");
         play.play(true);
         oSymbol.draw();
 

@@ -20,7 +20,6 @@ public class ServerConnection implements Runnable {
     public ServerConnection(Socket clientSocket, Server server) {
         this.clientSocket = clientSocket;
         this.server = server;
-
         this.playerNumber = server.getConnectionCounter();
         this.hasOpponent = playerNumber % 2 == 0;
 

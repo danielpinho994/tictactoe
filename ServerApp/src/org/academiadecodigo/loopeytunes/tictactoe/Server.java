@@ -8,12 +8,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
-
-    private final int port = 9900;
     private ServerSocket serverSocket;
     private ExecutorService cachedPool;
     private HashMap<Integer, ServerConnection> connectionsMap;
     private int connectionCounter = 0;
+
+    public static void main(String[] args) {
+        new Server();
+    }
 
     public Server() {
         try {
@@ -31,8 +33,8 @@ public class Server {
         }
     }
 
-
     private void setupConnection() throws IOException {
+        int port = 9900;
         serverSocket = new ServerSocket(port);
         cachedPool = Executors.newCachedThreadPool();
         connectionsMap = new HashMap<>();
@@ -57,7 +59,4 @@ public class Server {
         return connectionCounter;
     }
 
-    public static void main(String[] args) {
-        new Server();
-    }
 }

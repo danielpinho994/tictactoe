@@ -1,7 +1,6 @@
 package org.academiadecodigo.loopeytunes.tictactoe;
 
 import org.academiadecodigo.simplegraphics.graphics.Text;
-
 import java.io.*;
 import java.net.Socket;
 
@@ -33,10 +32,12 @@ public class Connection {
             }
 
         } catch (IOException e) {
+
             System.out.println("Server offline.");
             Text errorMessage = new Text(Field.WIDTH / 2, Field.HEIGHT / 2, "SERVER OFFLINE");
             errorMessage.grow(200, 100);
             errorMessage.draw();
+
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException interruptedException) {

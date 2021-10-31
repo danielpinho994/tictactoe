@@ -6,79 +6,43 @@ import java.io.IOException;
 import java.net.URL;
 
 
-    public class Sound {
+public class Sound {
 
-        private Clip clip;
-        private URL soundURL;
+    private Clip clip;
 
-        public Sound(String path) {
-            initClip(path);
+    public Sound(String path) {
+        initClip(path);
+    }
+
+    public void play(boolean fromStart) {
+
+        if (fromStart) {
+            clip.setFramePosition(0);
         }
+        clip.start();
+    }
 
+    private void initClip(String path) {
 
-        /**
-         * Plays the clip from the point it was stopped or from start if passed with the fromStart argument false or true
-         * @param fromStart should be true if want to replay the sound from the start or false otherwise
-         */
+        URL soundURL = Sound.class.getResource(path);
+        AudioInputStream inputStream;
 
+        try {
 
-        public void play(boolean fromStart) {
-
-            if (fromStart) {
-                clip.setFramePosition(0);
+            if (soundURL == null) {
+                File file = new File(path);
+                soundURL = file.toURI().toURL();
             }
-            clip.start();
-        }
 
-        public void stop() {
+            inputStream = AudioSystem.getAudioInputStream(soundURL);
+            clip = AudioSystem.getClip();
+            clip.open(inputStream);
 
-            clip.stop();
-        }
-
-        public void close() {
-
-            clip.close();
-        }
-
-        public void setLoop(int times) {
-            clip.loop(times);
-        }
-
-        public void reOpen() {
-
-            AudioInputStream inputStream = null;
-
-            try {
-
-                inputStream = AudioSystem.getAudioInputStream(soundURL);
-                clip.open(inputStream);
-
-            } catch (LineUnavailableException | IOException | UnsupportedAudioFileException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
-
-        private void initClip(String path) {
-
-            soundURL = Sound.class.getResource(path); //if loading from jar
-            AudioInputStream inputStream = null;
-
-            try {
-
-                if (soundURL == null) {
-                    File file = new File(path);
-                    soundURL = file.toURI().toURL(); //if executing on intellij
-                }
-
-                inputStream = AudioSystem.getAudioInputStream(soundURL);
-                clip = AudioSystem.getClip();
-                clip.open(inputStream);
-
-            } catch (UnsupportedAudioFileException | LineUnavailableException | IOException ex) {
-                System.out.println(ex.getMessage());
-            }
+        } catch (UnsupportedAudioFileException | LineUnavailableException | IOException ex) {
+            System.out.println(ex.getMessage());
         }
     }
+}
 
 
 
