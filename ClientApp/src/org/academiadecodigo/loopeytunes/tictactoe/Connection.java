@@ -40,7 +40,7 @@ public class Connection {
             play();
         }
 
-        while (true) {
+        while (!cursor.isGameOver()) {
             String opponent;
 
             try {
@@ -53,8 +53,10 @@ public class Connection {
 
                     cursor.addOpponentPlayToList(opponent);
 
-                    cursor.setPlaying(true);
-                    play();
+                    if (!cursor.isGameOver()) {
+                        cursor.setPlaying(true);
+                        play();
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -81,7 +83,5 @@ public class Connection {
                 break;
             }
         }
-
-
     }
 }

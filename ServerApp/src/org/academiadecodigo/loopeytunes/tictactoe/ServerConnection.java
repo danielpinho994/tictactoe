@@ -13,10 +13,12 @@ public class ServerConnection implements Runnable {
     private BufferedReader in;
     private PrintWriter out;
     private String message = "";
+    private int playerNumber;
 
     public ServerConnection(Socket clientSocket, Server server) {
         this.clientSocket = clientSocket;
         this.server = server;
+        this.playerNumber = server.getConnectionCounter();
 
         try {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -51,6 +53,10 @@ public class ServerConnection implements Runnable {
         out.println(message);
 
         System.out.println("Server is OK. Position sent: " + message);
+    }
+
+    public int getPlayerNumber(){
+        return playerNumber;
     }
 
     @Override
