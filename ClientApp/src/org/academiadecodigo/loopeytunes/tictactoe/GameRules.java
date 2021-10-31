@@ -1,10 +1,14 @@
 package org.academiadecodigo.loopeytunes.tictactoe;
 
+import org.academiadecodigo.simplegraphics.pictures.Picture;
+
 import java.util.ArrayList;
 
 public class GameRules {
 
     private Sound win = new Sound("resources/win.wav");
+    private Picture winPic;
+    private Picture lossPic;
 
     public void checkWin(ArrayList<String> playsList) {
 
@@ -12,7 +16,9 @@ public class GameRules {
             if (playsList.contains(posArray[0]) && playsList.contains(posArray[1]) && playsList.contains(posArray[2])) {
                 win.play(true);
                 gameOver("Win");
-                System.out.println("win");
+                winPic= new Picture(35, 215,"resources/WinPicture.png");
+                winPic.draw();
+
             }
         }
     }
@@ -22,6 +28,8 @@ public class GameRules {
         for (String[] posArray : winPositions()) {
             if (opponentPosList.contains(posArray[0]) && opponentPosList.contains(posArray[1]) && opponentPosList.contains(posArray[2])) {
                 gameOver("Loss");
+                lossPic = new Picture(25,215,"resources/lossPicture.png");
+                lossPic.draw();
 
             }
         }
@@ -42,6 +50,8 @@ public class GameRules {
     public void checkTie(ArrayList<String> posList) {
         if (posList.size() == 9) {
             gameOver("Tie");
+            lossPic = new Picture(25,215,"resources/lossPicture.png");
+            lossPic.draw();
         }
     }
 
