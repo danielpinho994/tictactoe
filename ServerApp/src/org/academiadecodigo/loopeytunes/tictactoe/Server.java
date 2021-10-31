@@ -12,7 +12,7 @@ public class Server {
     private final int port = 9900;
     private ServerSocket serverSocket;
     private ExecutorService cachedPool;
-    private HashMap<Integer, ServerConnection> hashMap;
+    private HashMap<Integer, ServerConnection> connectionsMap;
     private int connectionCounter = 0;
 
     public Server() {
@@ -22,9 +22,9 @@ public class Server {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 connectionCounter++;
-                ServerConnection serverConnection = new ServerConnection(clientSocket,this);
+                ServerConnection serverConnection = new ServerConnection(clientSocket, this);
                 cachedPool.submit(serverConnection);
-                hashMap.put(connectionCounter, serverConnection);
+                connectionsMap.put(connectionCounter, serverConnection);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -35,14 +35,20 @@ public class Server {
     private void setupConnection() throws IOException {
         serverSocket = new ServerSocket(port);
         cachedPool = Executors.newCachedThreadPool();
-        hashMap = new HashMap<>();
+        connectionsMap = new HashMap<>();
     }
 
-    public void broadcast(String message, ServerConnection sender){
+    public void broadcast(String message, ServerConnection sender) {
 
-        for (ServerConnection serverConnection : hashMap.values()){
-            if(!serverConnection.equals(sender)) {
-                serverConnection.respond(message);
+        for (ServerConnection serverConnection : connectionsMap.values()) {
+            if (sender.getPlayerNumber() % 2 != 0) {
+                if (serverConnection.getPlayerNumber() == sender.getPlayerNumber() + 1) {
+                    serverConnection.respond(message);
+                }
+            } else {
+                if (serverConnection.getPlayerNumber() == sender.getPlayerNumber() - 1) {
+                    serverConnection.respond(message);
+                }
             }
         }
     }

@@ -14,6 +14,7 @@ public class Cursor extends Position {
     private final GameRules gameRules;
     private String lastPlay;
     private Sound play = new Sound("resources/playCutted.wav");
+    private boolean gameOver;
 
     public Cursor(int x, int y, int width, int height) {
         super(x, y, width, height);
@@ -58,12 +59,12 @@ public class Cursor extends Position {
 
         Picture xSymbol = new Picture(rectangle.getX(), rectangle.getY(), "resources/GameX_Symbol.png");
 
-        xSymbol.draw();
         play.play(true);
+        xSymbol.draw();
         lastPlay = xSymbol.getX() + "#" + xSymbol.getY();
         addPlayToList(lastPlay);
-        gameRules.checkWin(myPosList);
-        gameRules.checkTie(posList);
+        gameOver = gameRules.checkWin(myPosList);
+        gameOver = gameRules.checkTie(posList);
     }
 
     public boolean isPlaying() {
@@ -82,10 +83,11 @@ public class Cursor extends Position {
 
         String[] coordinates = opponentPlay.split("#");
         Picture oSymbol = new Picture(parseDouble(coordinates[0]), parseDouble(coordinates[1]), "resources/GameO_Symbol.png");
+        play.play(true);
         oSymbol.draw();
 
-        gameRules.checkLoss(opponentPosList);
-        gameRules.checkTie(posList);
+        gameOver = gameRules.checkLoss(opponentPosList);
+        gameOver = gameRules.checkTie(posList);
     }
 
     public String getLastPlay() {
@@ -100,4 +102,7 @@ public class Cursor extends Position {
         lastPlay = null;
     }
 
+    public boolean isGameOver() {
+        return gameOver;
+    }
 }
