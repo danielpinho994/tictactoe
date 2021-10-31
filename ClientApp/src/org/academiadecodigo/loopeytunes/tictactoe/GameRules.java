@@ -4,11 +4,15 @@ import java.util.ArrayList;
 
 public class GameRules {
 
+    private Sound win = new Sound("resources/win.wav");
+
     public void checkWin(ArrayList<String> playsList) {
 
         for (String[] posArray : winPositions()) {
             if (playsList.contains(posArray[0]) && playsList.contains(posArray[1]) && playsList.contains(posArray[2])) {
+                win.play(true);
                 gameOver("Win");
+                System.out.println("win");
             }
         }
     }

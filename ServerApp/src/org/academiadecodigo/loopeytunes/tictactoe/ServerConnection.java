@@ -9,7 +9,7 @@ import java.net.Socket;
 public class ServerConnection implements Runnable {
 
     private final Socket clientSocket;
-    private final Server server;
+    private  final Server server;
     private BufferedReader in;
     private PrintWriter out;
     private String message = "";

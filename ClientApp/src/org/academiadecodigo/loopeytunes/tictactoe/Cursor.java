@@ -13,6 +13,7 @@ public class Cursor extends Position {
     private boolean isPlaying;
     private final GameRules gameRules;
     private String lastPlay;
+    private Sound play = new Sound("resources/playCutted.wav");
 
     public Cursor(int x, int y, int width, int height) {
         super(x, y, width, height);
@@ -56,8 +57,9 @@ public class Cursor extends Position {
         }
 
         Picture xSymbol = new Picture(rectangle.getX(), rectangle.getY(), "resources/GameX_Symbol.png");
-        xSymbol.draw();
 
+        xSymbol.draw();
+        play.play(true);
         lastPlay = xSymbol.getX() + "#" + xSymbol.getY();
         addPlayToList(lastPlay);
         gameRules.checkWin(myPosList);
