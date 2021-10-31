@@ -63,6 +63,7 @@ public class Cursor extends Position {
         addPlayToList(lastPlay);
         gameOver = gameRules.checkWin(myPosList);
         gameOver = gameRules.checkTie(posList);
+
     }
 
     public boolean isPlaying() {
