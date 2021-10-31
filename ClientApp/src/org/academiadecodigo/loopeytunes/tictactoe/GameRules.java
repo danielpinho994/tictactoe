@@ -3,17 +3,22 @@ package org.academiadecodigo.loopeytunes.tictactoe;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Line;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class GameRules {
     private boolean gameOver;
+    private Sound win = new Sound("resources/win.wav");
+    private Picture winPic;
+    private Picture lossPic;
 
     public boolean checkWin(ArrayList<String> playsList) {
 
         for (String[] posArray : winPositions()) {
             if (playsList.contains(posArray[0]) && playsList.contains(posArray[1]) && playsList.contains(posArray[2])) {
+                win.play(true);
 
                 int initialX = Integer.parseInt(posArray[0].split("#")[0]);
                 int finalX = Integer.parseInt(posArray[2].split("#")[0]);
@@ -49,6 +54,9 @@ public class GameRules {
                 }
 
                 gameOver("Win");
+                winPic= new Picture(35, 215,"resources/WinPicture.png");
+                winPic.draw();
+
                 gameOver = true;
 
                 return gameOver;
@@ -64,6 +72,8 @@ public class GameRules {
         for (String[] posArray : winPositions()) {
             if (opponentPosList.contains(posArray[0]) && opponentPosList.contains(posArray[1]) && opponentPosList.contains(posArray[2])) {
                 gameOver("Loss");
+                lossPic = new Picture(25,215,"resources/lossPicture.png");
+                lossPic.draw();
                 gameOver = true;
                 return gameOver;
 
@@ -77,6 +87,8 @@ public class GameRules {
         if (posList.size() == 9) {
             gameOver("Tie");
             gameOver = true;
+            lossPic = new Picture(25,215,"resources/lossPicture.png");
+            lossPic.draw();
             return gameOver;
         }
 
@@ -85,14 +97,14 @@ public class GameRules {
 
     public String[][] winPositions() {
         return new String[][]{
-                {"10#10", "210#10", "410#10"}, //horizontal
-                {"10#210", "210#210", "410#210"}, //horizontal
-                {"10#410", "210#410", "410#410"}, //horizontal
-                {"10#10", "10#210", "10#410"}, //vertical
-                {"210#10", "210#210", "210#410"}, //vertical
-                {"410#10", "410#210", "410#410"}, //vertical
-                {"10#10", "210#210", "410#410"}, //diagonal1
-                {"10#410", "210#210", "410#10"}}; //diagonal2
+                {"10#10", "210#10", "410#10"},
+                {"10#210", "210#210", "410#210"},
+                {"10#410", "210#410", "410#410"},
+                {"10#10", "10#210", "10#410"},
+                {"210#10", "210#210", "210#410"},
+                {"410#10", "410#210", "410#410"},
+                {"10#10", "210#210", "410#410"},
+                {"10#410", "210#210", "410#10"}};
     }
 
     public void gameOver(String outcome) {
@@ -107,7 +119,6 @@ public class GameRules {
                 System.out.println("You lose!");
                 break;
         }
-
     }
 
 }

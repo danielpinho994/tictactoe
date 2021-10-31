@@ -13,27 +13,24 @@ public class ServerConnection implements Runnable {
     private BufferedReader in;
     private PrintWriter out;
     private String message = "";
-    private int playerNumber;
+    private final int playerNumber;
+    private volatile boolean hasOpponent;
+    private final static Object key = new Object();
 
     public ServerConnection(Socket clientSocket, Server server) {
         this.clientSocket = clientSocket;
         this.server = server;
+
         this.playerNumber = server.getConnectionCounter();
+        this.hasOpponent = playerNumber % 2 == 0;
 
         try {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
 
-            if (server.getConnectionCounter() % 2 != 0) {
-                out.println("a");
-            } else {
-                out.println("b");
-            }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private void start() {
@@ -51,16 +48,44 @@ public class ServerConnection implements Runnable {
 
     public void respond(String message){
         out.println(message);
-
-        System.out.println("Server is OK. Position sent: " + message);
     }
 
     public int getPlayerNumber(){
         return playerNumber;
     }
 
+    private void opponentArrival(){
+        synchronized (key) {
+            key.notifyAll();
+        }
+    }
+
+    private void waitForOpponent(){
+        synchronized (key) {
+            while (!hasOpponent) {
+                try {
+                    key.wait();
+                    hasOpponent = true;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
     @Override
     public void run() {
+
+        waitForOpponent();
+        opponentArrival();
+
+        if (playerNumber % 2 != 0) {
+            out.println("a");
+        } else {
+            out.println("b");
+        }
+
         while (!message.equals("/q")) {
             start();
         }
